@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENT REMINDER</title>
+    <link rel="icon" href="/Image/alarm-1.png">
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: "Rada";
+            src: url("/Fonts/Rada\ Cenak\ Trial.ttf") format("truetype");
+        }
+
+        @font-face {
+            font-family: "Modula";
+            src: url("/Fonts/MODULAR-14.otf") format("opentype");
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --red: #D62828;
+            --lighter-red: #fa3e3e;
+            --red-border: #b60a0a;
+            --cream: #FFF3E0;
+            --darker-cream: #ecdbc1;
+            --font-title: "Modula";
+            --font-desc: "Rada";
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90dvh;
+            background-color: var(--cream);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5%;
+            z-index: 5;
+            position: relative;
+            width: 50%;
+            height: 80dvh;
+            background-color: var(--red);
+            border: 3px solid white;
+            border-radius: 26px;
+            box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.352);
+
+            .container-outline {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 4;
+                position: relative;
+                width: 95%;
+                height: 95%;
+                background-color: var(--red);
+                border: 2px solid white;
+                border-radius: 23px;
+
+                .wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    height: auto;
+                    min-height: 100%;
+                    overflow: hidden;
+                    background-color: var(--lighter-red);
+                    border-radius: 23px;
+                    
+                    .title {
+                        margin: 2%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-family: var(--font-title);
+                        font-size: 32px;
+                        color: var(--cream);
+                        letter-spacing: 4px;
+                    }
+
+                    .form {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        height: 100%;
+                        font-family: var(--font-desc);
+                        color: var(--cream);
+                        letter-spacing: 2px;
+                        font-size: 15px;
+                        margin-right: 3%;
+
+                        .form-info {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            gap: 2.5%;
+                            margin: 4%;
+
+                            input {
+                                width: 100%;
+                                padding: 12px;
+                                border-radius: 8px;
+                                border: 2px solid var(--red-border);
+                                outline: none;
+                                margin-top: -4%;
+                                font-family: var(--font-title);
+                                letter-spacing: 1px;
+                            }
+
+                            input:focus {
+                                transition: all .4s ease;
+                                border-radius: 10px;
+                                outline: none;
+                                box-shadow: 1px 2px 5px var(--red-border);
+                                font-family: var(--font-title);
+                                letter-spacing: 2px;
+                            }
+
+                            .line {
+                                width: 90%;
+                                height: 2px;
+                                background: linear-gradient(90deg, transparent, white, transparent);
+                                border: none;
+                                margin: 1% auto 0;
+                                margin-top: 7%;
+                            }
+
+                            button {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                text-align: center;
+                                width: 50%;
+                                padding: 6px 16px 12px;
+                                border-radius: 10px;
+                                border: 2px solid white;
+                                background-color: var(--red-border);
+                                color: white;
+                                font-family: var(--font-title);
+                                letter-spacing: 2px;
+                                font-size: 32px;
+                                cursor: pointer;
+                                margin-bottom: -7%;
+                                margin-top: 2%;
+
+                                &:hover {
+                                    transition: all .4s ease;
+                                    transform: scale(1.05);
+                                    box-shadow: 2px 2px 7px var(--red-border);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+        @media (max-width: 480px) {
+            .container {
+                flex-wrap: wrap;
+                width: 90%;
+                height: 70dvh;
+            }
+
+            .wrapper, .container-outline {
+                flex-wrap: wrap;
+            }
+
+            button { 
+                width: 120%;
+                padding: 15px 10px 12px 12px !important;
+                height: 50%;
+                font-size: 22px !important;
+            }
+
+            .title {
+                transform: translateY(10px);
+            }
+
+            input[type="datetime-local"] {
+                box-sizing: border-box;
+                max-width: 94%;
+                height: 35px;           
+                padding: 12px 8px;
+                font-size: 15px;
+                font-family: "--var(font-title)";
+                letter-spacing: 1px;
+                opacity: 1;      
+            }
+
+            input:focus {
+                color: black;
+            }
+
+            h2 {
+                margin-bottom: 2% !important;
+                font-size: 18px;
+            }
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+    
+
+    <div class="container">
+        <div class="container-outline">
+            <div class="wrapper">
+                <div class="title">
+                            -- REMINDER --
+                </div>
+                <div class="form">
+                    <form action="" class="form-info" id="reminderForm">
+                        <div class="event-name">
+                            <h2> Event Name </h2>
+                            <input type="text" name="name" id="name" required placeholder="name..." class="input-name">
+                        </div>
+                        <div class="event-date-time">
+                            <h2> Date + Time </h2>
+                            <input type="datetime-local" name="date-time" id="date-time" required placeholder="date & time..." class="input-date-time">
+                        </div>    
+                        <div class="event-location">
+                            <h2> Location </h2>
+                            <input type="text" name="location" id="location" required placeholder="location..." class="input-location">
+                        </div>    
+                        <div class="event-note">
+                            <h2> Extra note </h2>
+                            <input type="text" name="note" id="note" required placeholder="note..." class="input-note">
+                        </div>    
+
+                        <hr class="line">
+
+                        <div id="statusMsg"> </div>
+                        <div class="event-submit" align="center">
+                            <button type="submit" id="submitBtn"> SUBMIT </button>
+                        </div>    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+        // ==== CONFIGURE THESE TWO VALUES ====
+        const BOT_TOKEN = "8908833769:AAFDfCtswGOKPADcyVNL7e9ZCgJCwNFSRKM";
+        const CHAT_ID   = "1085445800";
+        // =====================================
+
+        const form = document.getElementById("reminderForm");
+        const statusMsg = document.getElementById("statusMsg");
+        const submitBtn = document.getElementById("submitBtn");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+            const dateTime = document.getElementById("date-time").value;
+            const location = document.getElementById("location").value.trim();
+            const note = document.getElementById("note").value.trim();
+
+            let formattedDate = dateTime;
+            if (dateTime) {
+                const d = new Date(dateTime);
+                formattedDate = d.toLocaleString(undefined, {
+                    weekday: "short", year: "numeric", month: "short",
+                    day: "numeric", hour: "2-digit", minute: "2-digit"
+                });
+            }
+
+            const messageText =
+                ` *New Event Reminder*\n\n` +
+                `*Event:* \t\t\t\t\t\t\t\t\t${escapeMarkdown(name)}\n` +
+                `*Time:* \t\t\t\t\t\t\t\t\t\t${escapeMarkdown(formattedDate)}\n` +
+                `*Location:* \t\t\t${escapeMarkdown(location)}\n` +
+                (note ? `*Note:* \t\t\t\t\t\t\t\t\t\t${escapeMarkdown(note)}\n` : "");
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "SENDING...";
+            statusMsg.textContent = "";
+
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: messageText,
+                        parse_mode: "Markdown"
+                    })
+                });
+
+                const data = await res.json();
+                const APPS_SCRIPT_URL = "YOUR_WEB_APP_URL_HERE"; // from step 4
+
+                fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ name, dateTime, location, note })
+                }).catch(err => console.error("Reminder scheduling failed:", err));
+
+                if (data.ok) {
+                    statusMsg.textContent = "Saved Successfully";
+                    form.reset();
+                } else {
+                    console.error("Telegram API error:", data);
+                    statusMsg.textContent = "Failed: " + (data.description || "unknown error");
+                }
+            } catch (err) {
+                console.error(err);
+                statusMsg.textContent = "Network error — check console.";
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "SUBMIT";
+            }
+        });
+
+        function escapeMarkdown(text) {
+            if (!text) return "";
+            return text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, "\\$1");
+        }
+    </script>
+
+
+
+
+</body>
+</html>
