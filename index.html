@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EVENT REMINDER</title>
-    <link rel="icon" href="alarm-1.png">
+    <link rel="icon" href="/Image/alarm-1.png">
     <style>
 
         * {
@@ -44,6 +44,7 @@
         }
 
         .container {
+            transform: scale(.9);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -51,7 +52,7 @@
             z-index: 5;
             position: relative;
             width: 50%;
-            height: 80dvh;
+            height: 89dvh;
             background-color: var(--red);
             border: 3px solid white;
             border-radius: 26px;
@@ -109,8 +110,9 @@
                             gap: 2.5%;
                             margin: 4%;
 
-                            input {
+                            input, select {
                                 width: 100%;
+                                height: 48px;
                                 padding: 12px;
                                 border-radius: 8px;
                                 border: 2px solid var(--red-border);
@@ -118,9 +120,11 @@
                                 margin-top: -4%;
                                 font-family: var(--font-title);
                                 letter-spacing: 1px;
+                                background-color: white;
+                                color: var(--red-border);
                             }
 
-                            input:focus {
+                            input:focus, select:focus {
                                 transition: all .4s ease;
                                 border-radius: 10px;
                                 outline: none;
@@ -129,13 +133,50 @@
                                 letter-spacing: 2px;
                             }
 
+                            select {
+                                appearance: none;
+                                -webkit-appearance: none;
+                                cursor: pointer;
+                                transition: all .4s ease;
+                                background-image: linear-gradient(45deg, transparent 50%, var(--red-border) 50%), linear-gradient(135deg, var(--red-border) 50%, transparent 50%);
+                                background-position: calc(100% - 16px) center, calc(100% - 10px) center;
+                                background-size: 6px 6px, 6px 6px;
+                                background-repeat: no-repeat;
+                                border-radius: 8px;
+                            }
+
+                            select:hover {
+                                background-color: var(--red);
+                                border-color: white;
+                                color: white;
+                            }
+
+                            option {
+                                letter-spacing: 2px !important;
+                                border-radius: 8px !important;
+                            }
+
                             .line {
                                 width: 90%;
                                 height: 2px;
                                 background: linear-gradient(90deg, transparent, white, transparent);
                                 border: none;
                                 margin: 1% auto 0;
-                                margin-top: 7%;
+                                margin-top: 3%;
+                            }
+
+                            .reminder-inputs {
+                                display: flex;
+                                gap: 5px;
+                                margin-top: 4%;
+                            }
+
+                            .reminder-inputs input {
+                                width: 80%;
+                            }
+
+                            .reminder-inputs select {
+                                width: 19%;
                             }
 
                             button {
@@ -175,7 +216,7 @@
             .container {
                 flex-wrap: wrap;
                 width: 90%;
-                height: 70dvh;
+                height: 88dvh;
             }
 
             .wrapper, .container-outline {
@@ -193,13 +234,17 @@
                 transform: translateY(10px);
             }
 
+            input {
+                margin-top: -2.5% !important;
+            }
+
             input[type="datetime-local"] {
                 box-sizing: border-box;
                 max-width: 94%;
                 height: 35px;           
                 padding: 12px 8px;
                 font-size: 15px;
-                font-family: "--var(font-title)";
+                font-family: var(--font-title);
                 letter-spacing: 1px;
                 opacity: 1;      
             }
@@ -211,6 +256,21 @@
             h2 {
                 margin-bottom: 2% !important;
                 font-size: 18px;
+            }
+
+            .reminder-inputs {
+                display: flex;
+                gap: 5px;
+                /* margin-top: 4%; */
+            }
+
+            .reminder-inputs input {
+                width: 60% !important;
+            }
+
+            .reminder-inputs select {
+                width: 39% !important;
+                margin-top: -2.7% !important;
             }
         }
 
@@ -230,18 +290,33 @@
                 </div>
                 <div class="form">
                     <form action="" class="form-info" id="reminderForm">
+                        
                         <div class="event-name">
                             <h2> Event Name </h2>
                             <input type="text" name="name" id="name" required placeholder="name..." class="input-name">
                         </div>
+
                         <div class="event-date-time">
                             <h2> Date + Time </h2>
                             <input type="datetime-local" name="date-time" id="date-time" required placeholder="date & time..." class="input-date-time">
-                        </div>    
+                        </div>
+                        <div class="event-reminder">
+                            <h2> Remind </h2>
+                            <div class="reminder-inputs">
+                                <input type="number" name="reminder-value" id="reminder-value" min="1" required placeholder="1..." class="input-reminder-value">
+                                <select name="reminder-unit" id="reminder-unit" required>
+                                    <option value="minutes">minutes before</option>
+                                    <option value="hours">hours before</option>
+                                    <option value="days" selected>days before</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="event-location">
                             <h2> Location </h2>
                             <input type="text" name="location" id="location" required placeholder="location..." class="input-location">
-                        </div>    
+                        </div>
+
                         <div class="event-note">
                             <h2> Extra note </h2>
                             <input type="text" name="note" id="note" required placeholder="note..." class="input-note">
@@ -273,6 +348,9 @@
         const statusMsg = document.getElementById("statusMsg");
         const submitBtn = document.getElementById("submitBtn");
 
+        const unitToMinutes = { minutes: 1, hours: 60, days: 1440 };
+        
+
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -280,6 +358,14 @@
             const dateTime = document.getElementById("date-time").value;
             const location = document.getElementById("location").value.trim();
             const note = document.getElementById("note").value.trim();
+            const reminderValue = Number(document.getElementById("reminder-value").value);
+            const reminderUnit = document.getElementById("reminder-unit").value;
+            const reminderOffset = reminderValue * unitToMinutes[reminderUnit];
+
+            if (!reminderValue || reminderValue <= 0 || Number.isNaN(reminderOffset)) {
+                statusMsg.textContent = "Please enter a valid reminder time";
+                return;
+            }
 
             let formattedDate = dateTime;
             if (dateTime) {
@@ -313,11 +399,11 @@
                 });
 
                 const data = await res.json();
-                const APPS_SCRIPT_URL = "YOUR_WEB_APP_URL_HERE"; // from step 4
+                const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxrdR0lqvue-GQRFUzKYwOisT-uriGGcLojfHkpt-w8BKqFb7SlMDTqd6Fp5qKnkAVeUA/exec"; // from step 4
 
                 fetch(APPS_SCRIPT_URL, {
                     method: "POST",
-                    body: JSON.stringify({ name, dateTime, location, note })
+                    body: JSON.stringify({ name, dateTime, location, note, reminderOffset })
                 }).catch(err => console.error("Reminder scheduling failed:", err));
 
                 if (data.ok) {
